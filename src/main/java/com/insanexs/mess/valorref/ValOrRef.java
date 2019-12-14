@@ -1,38 +1,53 @@
 package com.insanexs.mess.valorref;
 
 /**
- * @Author: xieshang
+ * @Author: insaneXs
  * @Description:
  * @Date: Create at 2019-12-06
  */
 public class ValOrRef {
 
     public static void main(String[] args){
-        int val = 1;
-        incrVal(val);
-        System.out.println("after incrVal: " + val);
-
-        Foo foo = new Foo("original");
-        changeStr(foo);
-        System.out.println(foo);
-
-        createNewInstance(foo);
-        System.out.println(foo);
+        System.out.println("SCENE 1:--------------------");
+        scene1();
+        System.out.println("SCENE 2:--------------------");
+        scene2();
+        System.out.println("SCENE 3:--------------------");
+        scene3();
     }
 
-    protected static void incrVal(int val){
-        val = val + 1;
-        System.out.println("incrVal method: " + val);
+    protected static void scene1(){
+        int argument = 1;
+        incrVal(argument);
+        System.out.println("After method invoke, argument: " + argument);
     }
 
-    protected static void changeStr(Foo foo){
-        foo.setStr("changed");
-        System.out.println(foo);
+    protected static void scene2(){
+        Foo argument = new Foo("original");
+        changeStr(argument);
+        System.out.println("After method invoke, argument: " + argument);
     }
 
-    protected static void createNewInstance(Foo foo){
-        foo = new Foo("Brand New");
-        System.out.println(foo);
+
+    protected static void scene3(){
+        Foo argument = new Foo("original");
+        createNewInstance(argument);
+        System.out.println("After method invoke, argument: " + argument);
+    }
+
+    private static void incrVal(int parameter){
+        parameter = parameter + 1;
+        System.out.println("parameter: " + parameter);
+    }
+
+    private static void changeStr(Foo parameter){
+        parameter.setStr("changed");
+        System.out.println("parameter: " + parameter);
+    }
+
+    private static void createNewInstance(Foo parameter){
+        parameter = new Foo("Brand New");
+        System.out.println("parameter: " + parameter);
     }
 
 
