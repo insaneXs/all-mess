@@ -8,6 +8,8 @@ package com.insanexs.mess.arrays;
 public class MaxArraysTest {
 
     public static void main(String[] args){
+        //CATCH DOES NOT WORK!!!
+
         //Scene 1: beyonds VM limits
         try {
             byte[] arrBeyondsVMLimits = new byte[Integer.MAX_VALUE];
