@@ -1,5 +1,6 @@
 package com.insanexs.mess.threads.condition;
 
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -45,6 +46,14 @@ public class ConditionInterruptTest {
             lock.unlock();
         });
 
+        Thread lastAcquireThread = new Thread(()->{
+            try {
+                String result = lock.tryLock(10000L, TimeUnit.MILLISECONDS) ? "SUCCESS" : "FAILED";
+                System.out.println("LastAcquireThread lock " + result);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
 
 
         Thread interruptedThread = new Thread(()->{
@@ -56,6 +65,11 @@ public class ConditionInterruptTest {
                 condition.await();
             } catch (InterruptedException e) {
                 System.out.println("Interrupted Thread Throws Interrupt Exception");
+
+                System.out.println("EVEN THOUGH CURRENT THREAD THROW EXCEPTION; LOCK STILL HELD BY CURRENT THREAD: " + ((ReentrantLock)lock).isHeldByCurrentThread());
+                //only catch exception, but not release lock
+                lastAcquireThread.start();
+                System.out.println("Last Acquire Thread Start");
             }
 
 
@@ -70,5 +84,7 @@ public class ConditionInterruptTest {
         //但是interrupted thread仍然会在AQS的队列中排队，直到轮到自己时才会throw InterruptException
         interruptedThread.interrupt();
         System.out.println("Main Thread Interrupt Interrupt Thread");
+
+
     }
 }
