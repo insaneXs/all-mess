@@ -1,4 +1,4 @@
-package com.insanexs.mess.threads.interrupt;
+package com.insanexs.mess.concurrency.interrupt;
 
 /**
  * @ClassName ThreadInterruptTest

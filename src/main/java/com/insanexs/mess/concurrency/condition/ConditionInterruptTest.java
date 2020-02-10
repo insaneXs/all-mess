@@ -1,4 +1,4 @@
-package com.insanexs.mess.threads.condition;
+package com.insanexs.mess.concurrency.condition;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;

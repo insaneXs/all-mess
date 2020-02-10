@@ -1,4 +1,4 @@
-package com.insanexs.mess.threads.cpu.time;
+package com.insanexs.mess.concurrency.cpu.time;
 
 /**
  * @Author: insaneXs

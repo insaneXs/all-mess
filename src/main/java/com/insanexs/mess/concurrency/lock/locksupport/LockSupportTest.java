@@ -1,4 +1,4 @@
-package com.insanexs.mess.threads.lock.locksupport;
+package com.insanexs.mess.concurrency.lock.locksupport;
 
 import java.util.concurrent.locks.LockSupport;
 
