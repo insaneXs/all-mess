@@ -1,4 +1,4 @@
-package com.insanexs.mess.threads.state;
+package com.insanexs.mess.concurrency.state;
 
 import java.util.concurrent.locks.ReentrantLock;
 
