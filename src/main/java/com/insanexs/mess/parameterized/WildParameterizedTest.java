@@ -42,7 +42,8 @@ public class WildParameterizedTest {
     }
 
     protected static void acceptWildParameterizedClass(List<?> list){
-        System.out.println("");
+        //编译器出错
+        //list.add("String");
     }
 
     protected static void putAndSetWildParameterizedClass(){
