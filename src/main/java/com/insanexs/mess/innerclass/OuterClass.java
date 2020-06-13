@@ -16,6 +16,9 @@ public class OuterClass {
 
     public class InnerClass{
 
+        public InnerClass(){
+        }
+
         protected OuterClass getOutClass(){
             return OuterClass.this;
         }
@@ -34,6 +37,8 @@ public class OuterClass {
 
         //Case 2 Create Inner Class without outer class, compile failed!!!
         //InnerClass innerClassWithoutOutClass = new InnerClass();
+
+
 
     }
 }
