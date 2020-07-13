@@ -44,6 +44,18 @@ Constant pool:
     flags: ACC_PROTECTED, ACC_STATIC, ACC_FINAL
     ConstantValue: String CONSTANT
 
+  private volatile int intField;
+    descriptor: I
+    flags: ACC_PRIVATE, ACC_VOLATILE
+
+  private int[] intArraysField;
+    descriptor: [I
+    flags: ACC_PRIVATE
+
+  private java.lang.String strField;
+    descriptor: Ljava/lang/String;
+    flags: ACC_PRIVATE
+
   public com.insanexs.mess.javap.JavapTest();
     descriptor: ()V
     flags: ACC_PUBLIC
@@ -84,5 +96,22 @@ Constant pool:
       LocalVariableTable:
         Start  Length  Slot  Name   Signature
             0       5     0  this   Lcom/insanexs/mess/javap/JavapTest;
+
+  private synchronized void privateSynchronizedMethod(int);
+    descriptor: (I)V
+    flags: ACC_PRIVATE, ACC_SYNCHRONIZED
+    Code:
+      stack=2, locals=2, args_size=2
+         0: aload_0
+         1: iload_1
+         2: putfield      #3                  // Field intField:I
+         5: return
+      LineNumberTable:
+        line 26: 0
+        line 27: 5
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       6     0  this   Lcom/insanexs/mess/javap/JavapTest;
+            0       6     1 intArgs   I
 }
 SourceFile: "JavapTest.java"

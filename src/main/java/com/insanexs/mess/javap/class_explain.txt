@@ -1,5 +1,7 @@
 cafe babe //U4 魔数
 0000 0034 //U2 次版本号 U2主版本号
+
+/*********************常量池相关************************************/
 0024 //U2 CONSTANT_POOL_COUNT 常量池计数 转为十进制为36，说明常量池中有35项常量，从1开始到35（#0被特意空出，给不需要引用常量池中的常量准备）
 //开始常量池中常量的分析，分析步骤如下 先根据一个字节确定常量类型（U1表示flag），在根据常量类型的结构确定需要往后读多少个字节
 //常量#1
@@ -74,7 +76,7 @@ cafe babe //U4 魔数
 //常量#19
 01 //Utf8_info
 0012 //length = 18
-4c6f 6361 6c56 6172 6961 626c 6554 6162 6c65 //LocalVariableTable
+4c6f 6361 6c56 6172 6961 626c 6554 6162 6c65 //翻译成字符串为：LocalVariableTable
 /常量#20
 01 //Utf8_info
 0004 //length = 4
@@ -115,30 +117,188 @@ cafe babe //U4 魔数
 01 //Utf8_info
 000e //length = 14
 4a61 7661 7054 6573 742e 6a61 7661 //翻译成字符串为：JavapTest.java
+//常量#30
+0c //0x0c表示NameAndType_info 表示字段或方法的部分符号引用(U1 flag; U2 index(指向字段或方法的名称常量); U2 index(指向字段或方法的描述符常量))
+000f //指向常量池中的0x0f => #15
+0010 //指向常量池中的0x10 => #16
+//常量#31
+0c //同样是NameAndType_info
+000e //指向常量池中的0x0e => #14
+0007 //指向常量池中的0x07 => #7
+//常量#32
+0c //同样是NameAndType_info
+000a //指向常量池中的0x0a => #10
+000b //指向常量池中的0x0b => #11
+//常量#33
+01 //Utf8_info
+0021 //length = 33
+636f 6d2f 696e 7361 6e65 7873 2f6d 6573 732f 6a61 7661 702f 4a61 7661 7054 6573 74 //翻译成字符串为：com/insanexs/mess/javap/JavapTest
+//常量#34
+01 //Utf8_info
+0010 //length = 16
+6a61 7661 2f6c 616e 672f 4f62 6a65 6374 //翻译成字符串为：java/lang/Object
+//常量#35
+01 //Utf8_info
+0008 //length = 8
+43 4f4e 5354 414e 54 //翻译成字符串为：CONSTANT
 
-0c00 0f00
-100c 000e 0007 0c00 0a00 0b01 0021 636f
-6d2f 696e 7361 6e65 7873 2f6d 6573 732f
-6a61 7661 702f 4a61 7661 7054 6573 7401
-0010 6a61 7661 2f6c 616e 672f 4f62 6a65
-6374 0100 0843 4f4e 5354 414e 5400 2100
-0400 0500 0000 0400 1c00 0600 0700 0100
-0800 0000 0200 0900 4200 0a00 0b00 0000
-0200 0c00 0d00 0000 0200 0e00 0700 0000
-0400 0100 0f00 1000 0100 1100 0000 3300
-0100 0100 0000 052a b700 01b1 0000 0002
-0012 0000 000a 0002 0000 000d 0004 000f
-0013 0000 000c 0001 0000 0005 0014 0015
-0000 0001 0016 0010 0001 0011 0000 002b
-0000 0001 0000 0001 b100 0000 0200 1200
-0000 0600 0100 0000 1300 1300 0000 0c00
-0100 0000 0100 1400 1500 0000 0400 1700
-1800 0100 1100 0000 2f00 0100 0100 0000
-052a b400 02b0 0000 0002 0012 0000 0006
-0001 0000 0016 0013 0000 000c 0001 0000
-0005 0014 0015 0000 0022 0019 001a 0001
-0011 0000 003e 0002 0002 0000 0006 2a1b
-b500 03b1 0000 0002 0012 0000 000a 0002
-0000 001a 0005 001b 0013 0000 0016 0002
-0000 0006 0014 0015 0000 0000 0006 001b
-000b 0001 0001 001c 0000 0002 001d
+0021 //Access_flag U2 表示类或接口的访问信息 0x0021 = (x0020 | 0x0001) => ACC_SUPER; ACC_PUBLIC
+0004 //this_class U2  表示类的全限定名，指向常量池中的Class_info 这里指向常量池#4
+0005 //super_class U2 表示父类的全限定名，同样指向常量池中的Class_info 这里指向常量池#5
+0000 //interface_count 表示接口的个数 这里为0 表示类没有实现接口 （由于interface_count = 0, 因此下面将不存在interfaces相关数据，interfaces是interface_count个U2的数据，每个表示接口的全限定名，指向常量池中的Class_info)
+
+/****************************field******************************/
+0004 //field_count 表示字段的个数 这里为4 表示接下来的4个(U2 access_flags + U2 name_index + U2 descriptor_index + U2 attributes_count + attributes_count *attributes_info 个)为fields结构
+
+//field1
+001c //access_flags 字段的访问属性 0x1c = (0x10 | 0x08 | 0x04 ) =>ACC_PROTECTED ACC_FINAL ACC_STATIC
+0006 //name_index 指向常量池中0x06 => #6 即VAR_CONSTANT
+0007 //descriptor_index 指向常量池中0x07 => #7 即Ljava/lang/String; 说明是String类型的字段
+0001 //attributes_count 表示有1个attribute_info 属性表 attribute_info是一个比较复杂的结构，虚拟机规范中定义了虚拟机应当识别的二十多种属性（Java SE 8 23种）所有属性的开始的6字节都是相同的(U2 attribute_name_index + U4 attribute_length),之后的结构由属性自己定义，属性表可以出现在类，字段及方法上
+0008 //attribute_name_index 指向常量池中的Utf8_info常量 0x08 => #8 即ConstantValue ConstantValue是属性表的一种，出现在字段中，表示final定义的常量值
+0000 0002 //length = 2 表示后面2个字节长度的数据为该属性表的数据
+0009 //对于ConstantValue而言 这部分数据表示constantvalue_index 指向常量池中的常量 0x09即 =>#9 即String_info 具体值为#35 为字符串 CONSTANT
+
+//filed2
+0042 //access_flags =>(0x40 | 0x02) => ACC_PRIVATE ACC_VOLATILE
+000a //name_index 指向常量池中的0x0a #10 即intField
+000b //descriptor_index 指向常量池中的0x0b #11 即I 表示int类型的field
+0000 //attribute_count = 0 说明无attribute_info
+
+//filed3
+0002 //access_flags => 0x02 =>ACC_PRIVATE
+000c //name_index 指向常量池中的0x0c #12 即intArraysField
+000d //descriptor_index 指向常量池中的0x0d #13 即[I 表示int数组
+0000 //attribute_count = 0 说明无attribute_info
+
+//field4
+0002 //access_flags => 0x02 =>ACC_PRIVATE
+000e //name_index 指向常量池中的0x0e #14 即strField
+0007 //descriptor_index 指向常量池中的0x07 #7 即 Ljava/lang/String; 说明是String类型的字段
+0000 //attribute_count = 0 说明无attribute_info
+
+/******************methods*************************************/
+0004 //methods_count U2 表示有几个方法 0x04表示有4个方法 后面4*(U2 access_flag + U2 name_index + U2 descriptor_index + U2 attributes_count + attributes_count * attributes_info)个数据为methods结构
+//method_1
+0001 //access_flag => 0x01 => ACC_PUBLIC
+000f //name_index 指向常量池中的0x0f #15 即方法名为：<init>
+0010 //descriptor_index 指向常量池中的0x10 #16 即方法描述符为：()V 无参无返回
+0001 //attributes_count 表示之后有一个attribute_info
+0011 //attribute_name_index 指向常量池中的0x11 #17 即Code 表示CODE属性表 CODE属性表结构为(U2 attribute_name_index + U4 attribute_length + U2 max_stack + U2 max_locals + U4 code_length + code_length * U1 code +  U2 exception_table_length + exception_table_length * exception_info + U2 attribute_count + attribute_count * attribute_info)
+0000 0033 //length = 0x33 表示之后51个字节为CODE属性表中的信息
+0001 //max_stack 1
+0001 //max_locals 1
+0000 0005 //code_length 5 后面接CODE 每个指令占一个字节 说明该方法由五个指令
+2a b7 00 01 b1 //aload_0 invokespecial nop aconst_null return
+0000 //exception_table_length = 0 说明没有异常表的数据 如果exception_table_length为n 后面的n个字节为异常表相关的信息
+0002 //attributes_count = 2
+0012 //attribute_name_index 指向常量池中的0x12 即#18 LineNumberTable 表示行号和字节码指令的对应关系
+0000 000a //attribute_length 表示后面10个字节均为该属性表的信息
+0002 //line_number_table_length 表示后面有2个line_number_table 一个line_number_table结构为(U2 start_pc + U2 line_number)
+0000 //start_pc start_pc表示上述指令集中的索引 0对应上述指令集既为2a 为aload_0指令
+000d //line_number 等于行号line:13 表示aload_0 对应代码13行
+0004 //start_pc 同理对应索引为4的指令 return
+000f //line_number 等于行号line:15 表示return 对应代码15行
+
+0013 //attribute_name_index 指向常量池中的0x13 即#19  LocalVariableTable 表示方法局部变量的描述
+0000 000c //attribute_length 表示之后12个字节均为 LocalVariableTable 属性表中的内容
+0001 //local_variable_table_length 表示有一个局部变量表 local_variable_table的结构为(U2 start_pc + U2 length + U2 name_index + U2 descriptor_index + U2 index)
+0000 //start_pc 0
+0005 //length 5 说明该局部变量从偏移量0开始到0+5 一直被使用
+0014 //name_index 指向常量池中的常量 0x14 => #20 即this
+0015 //descriptor_index 指向常量池中的常量 0x15 => #21 即Lcom/insanexs/mess/javap/JavapTest;
+0000 //index 0
+
+//method_2
+0001 //access_flag =>0x01 =>ACC_PUBLIC
+0016 //name_index 指向常量池中的0x16 =>#22 即  publicMethod
+0010 //descriptor_index 指向常量池中的0x10 =>#16 即 ()V 表示无参且无返回值
+0001 //attribute_count 表示之后有1个attributes_info
+0011 //attribute_name_index 同样指向常量中的0x11 #17即CODE属性表
+0000 002b //length = 43 表示之后43个字节为CODE属性表的内容
+0000 //max_stack = 0
+0001 //max_locals = 1
+0000 0001 //code_length = 1
+b1 //指令 表示return
+0000 //exception_table_length = 0 无异常表
+0002 //attributes_count = 2
+0012 //attribute_name_index 指向常量池中的#18 LineNumberTable
+0000 0006 //attribute_length 表示后6个字节为LineNumberTable的信息
+0001 //表示只有一个line_number_table
+0000 //start_pc 0 对应指令return
+0013 //line_number 19  表示return对应的行号是19
+0013 //attribute_name_index 指向常量池中的#19 LocalVariableTable
+0000 000c //attribute_length 表示之后12个字节均为 LocalVariableTable 属性表中的内容
+0001 //local_variable_table_length 表示有1个局部变量表
+0000 //start_pc 0
+0001 //length 1
+0014 //name_index 指向常量池中的常量 0x14 => #20 即this
+0015 //descriptor_index 指向常量池中的常量 0x15 => #21 即Lcom/insanexs/mess/javap/JavapTest;
+0000 //index 0
+
+//method 3
+0004 //access_flag =>0x04 =>ACC_PROTECTED
+0017 //name_index 常量池中#23 即 protectedReturnStrMethod
+0018 //descriptor_index 常量池中#24 ()Ljava/lang/String; 表示无参，单接返回值类型为String
+0001 //attribute_count 表示有一个attribute_info
+0011 //attribute_name_index 同样指向常量中的0x11 #17即CODE属性表
+0000 002f //length = 47 之后47个字节均为CODE属性表的内容
+0001 //max_stack = 1
+0001 //max_locals = 1
+0000 0005 //code_length = 5 表示方法含有五个指令
+2a b4 00 02 b0 //字节码指令 分别表示aload_0 getfield nop iconst_m1 areturn
+0000 //exception_table_length = 0 表示无异常表
+0002 //attributes_count表示有两个属性表
+0012 //attribute_name_index 常量池#18 LineNumberTable
+0000 0006 //attribute_length 表示后6个字节为LineNumberTable的信息
+0001 //表示只有一个line_number_table
+0000 //start_pc 0 对应的指令aload_0
+0016 //line_number 对应line:22
+0013 //attribute_name_index 常量池#19 LocalVariableTable
+0000 000c //attribute_length 表示之后12个字节均为 LocalVariableTable 属性表中的内容
+0001 //local_variable_table_length 表示有1个局部变量表
+0000 //start_pc 0
+0005 //length 5
+0014 //name_index 指向常量池#20 即this
+0015 //descriptor_index 指向常量池#21 即Lcom/insanexs/mess/javap/JavapTest;
+0000 //index 0
+
+//method 4
+0022 //access_flag => (0x20 | 0x02) => ACC_SYNCHRONIZED ACC_PRIVATE
+0019 //name_index 常量池中#25 即 privateSynchronizedMethod
+001a // descriptor_index 常量池中#26 (I)V 接受一个int参数 但无返回值
+0001 //attribute_count 表示有一个attribute_info
+0011 //attribute_name_index 同样指向常量中的0x11 #17即CODE属性表
+0000 003e //length = 62 之后的62个字节均为CODE属性
+0002 //max_stack = 2
+0002 //max_locals = 2
+0000 0006 //code_length = 6 表示之后6个字节均为字节码指令
+2a 1b b5 00 03 b1 //分别为aload_0 iload_1 putfield nop iconst_0 return
+0000 //exception_table_length = 0 表示无异常表
+0002 //attributes_count表示有两个属性表
+0012 //attribute_name_index 常量池#18 LineNumberTable
+0000 000a //attribute_length 表示后10个字节为LineNumberTable的信息
+0002 //表示有2个line_number_table
+0000 //start_pc 0 对应的指令aload_0
+001a //line_number 对应line:26
+0005 //start_pc 5 对应的指令return
+001b //line_number 对应line:27
+0013 //attribute_name_index 常量池#19 LocalVariableTable
+0000 0016 //attribute_length = 22 之后22个字节均为局部变量表的内容
+0002 //local_variable_table_length = 2 表示存在两个局部变量表
+0000 //start_pc 0
+0006 //length 6
+0014 //name_index 常量池#20 即this
+0015 //descriptor_index 指向常量池#21 即Lcom/insanexs/mess/javap/JavapTest;
+0000 //index 0
+0000 //start_pc 0
+0006 //length 6
+001b //name_index 指向常量池#27 即intArgs
+000b //descriptor_index 指向常量池#11 即I 表示int类型
+0001 //index 1
+
+/**************attributes*************************/
+0001 //attributes_count 表示有1个属性表 此时应该是类的属性表
+001c //attribute_name_index 指向常量池#28 即SourceFile 用于记录源文件名称
+0000 0002 //length  = 2 后面两个字节属于SourceFile属性表的内容
+001d //source_file_index 指向常量池中#29 JavapTest.java
