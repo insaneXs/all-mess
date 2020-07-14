@@ -188,8 +188,8 @@ cafe babe //U4 魔数
 0000 0033 //length = 0x33 表示之后51个字节为CODE属性表中的信息
 0001 //max_stack 1
 0001 //max_locals 1
-0000 0005 //code_length 5 后面接CODE 每个指令占一个字节 说明该方法由五个指令
-2a b7 00 01 b1 //aload_0 invokespecial nop aconst_null return
+0000 0005 //code_length 5 后面接CODE 每个指令占一个字节 部分指令后的字节表示指令的参数
+2a b7 00 01 b1 //aload_0 invokespecial (0001 => 常量池#1) return
 0000 //exception_table_length = 0 说明没有异常表的数据 如果exception_table_length为n 后面的n个字节为异常表相关的信息
 0002 //attributes_count = 2
 0012 //attribute_name_index 指向常量池中的0x12 即#18 LineNumberTable 表示行号和字节码指令的对应关系
@@ -246,7 +246,7 @@ b1 //指令 表示return
 0001 //max_stack = 1
 0001 //max_locals = 1
 0000 0005 //code_length = 5 表示方法含有五个指令
-2a b4 00 02 b0 //字节码指令 分别表示aload_0 getfield nop iconst_m1 areturn
+2a b4 00 02 b0 //字节码指令 分别表示aload_0 getfield (0002 =>常量池#2) areturn
 0000 //exception_table_length = 0 表示无异常表
 0002 //attributes_count表示有两个属性表
 0012 //attribute_name_index 常量池#18 LineNumberTable
@@ -273,7 +273,7 @@ b1 //指令 表示return
 0002 //max_stack = 2
 0002 //max_locals = 2
 0000 0006 //code_length = 6 表示之后6个字节均为字节码指令
-2a 1b b5 00 03 b1 //分别为aload_0 iload_1 putfield nop iconst_0 return
+2a 1b b5 00 03 b1 //分别为aload_0 iload_1 putfield (0003 =>常量池#3) return
 0000 //exception_table_length = 0 表示无异常表
 0002 //attributes_count表示有两个属性表
 0012 //attribute_name_index 常量池#18 LineNumberTable
