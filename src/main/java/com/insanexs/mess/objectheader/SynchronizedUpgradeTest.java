@@ -9,6 +9,7 @@ public class SynchronizedUpgradeTest {
     static Foo foo = new Foo();
 
     public static void main(String[] args) throws InterruptedException {
+//        hashCodeTest();
 //        biasedLock();
 
 //        biasedLockInvalidAfterCalculate();
@@ -16,6 +17,14 @@ public class SynchronizedUpgradeTest {
 //        biasedLockUpgradeToLightLock();
 
         lightLockToWeightLock();
+    }
+
+    /**
+     * JVM OPTIONS: -XX:+UseBiasedLocking -XX:BiasedLockingStartupDelay=0
+     */
+    protected static void hashCodeTest(){
+        foo.printLockObjectHeader();
+        foo.calculateHashAndPrint();
     }
 
     /**

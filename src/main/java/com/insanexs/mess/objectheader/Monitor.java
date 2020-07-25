@@ -7,9 +7,9 @@ package com.insanexs.mess.objectheader;
  */
 public class Monitor {
 
-    @Override
-    public int hashCode() {
-        //必须要调用父类的hashCode方法 mark work中才会存hashCode
-        return 0xff;
-    }
+//    @Override
+//    public int hashCode() {
+//        //必须要调用父类的hashCode方法 mark work中才会存hashCode
+//        return 0xff;
+//    }
 }
