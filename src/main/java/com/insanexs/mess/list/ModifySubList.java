@@ -18,6 +18,9 @@ public class ModifySubList {
         list.add(3);
 
         List<Integer> subList = list.subList(1,2);
+
+        list.remove(0);
+//        subList = list.subList(1,2);
         subList.add(4);
 
         System.out.println(list.size());

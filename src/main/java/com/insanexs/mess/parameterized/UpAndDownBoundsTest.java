@@ -9,14 +9,19 @@ package com.insanexs.mess.parameterized;
 public class UpAndDownBoundsTest {
 
     public static void main(String[] args){
+        test();
+
+
         /******SCENE 1 UP BOUNDS **********/
-        Plate<? extends Fruit> p1 = new Plate<>();
+        Plate<? extends Fruit> p1 = new Plate<Apple>();
         //Compile Error
 //        p1.add(new Apple());
         Fruit f = p1.get();
 
+        //Plate<Apple> applePlate = p1;
+
         /*****SCENE 2 DOWN BOUNDS**********/
-        Plate<? super  Fruit> p2 = new Plate<>();
+        Plate<? super  Fruit> p2 = new Plate();
         p2.add(new Apple());
         //Food food = p2.get();
 
@@ -33,11 +38,35 @@ public class UpAndDownBoundsTest {
         Fruit fruit1 = p3.get();
         p3.add(fruit1);
     }
+
+    protected static void test(){
+        Plate<Apple> applePlate = new Plate<>();
+        Plate<Fruit> fruitPlate = new Plate<>();
+        Plate<Food> foodPlate = new Plate<>();
+
+        Plate<? extends Fruit> upBoundsFruitPlate;
+        upBoundsFruitPlate = applePlate;
+        upBoundsFruitPlate = fruitPlate;
+        //compile error
+        //upBoundsFruitPlate = foodPlate;
+
+
+        Plate<? super Fruit> downBoundsFruitPlate;
+        downBoundsFruitPlate = foodPlate;
+        downBoundsFruitPlate = fruitPlate;
+        //compile error
+        //downBoundsFruitPlate = applePlate;
+    }
+}
+
+interface Plant{
+
 }
 
 class Food{
 
 }
+
 
 class Fruit extends Food implements Plant {
 
@@ -74,9 +103,5 @@ class FruitPlate<T extends Fruit> extends  Plate{
     public Fruit get(){
         return fruit;
     }
-}
-
-interface Plant{
-
 }
 
